@@ -13,12 +13,13 @@ contract GuestbookTest is Test {
 
     function test_SignGuestbook() public {
         string memory message = "Hello, world!";
+        string memory imageUrl = "https://dweb.mypinata.cloud/ipfs/QmVLwvmGehsrNEvhcCnnsw5RQNseohgEkFNN1848zNzdng";
 
         // Test event emission
         vm.expectEmit(true, false, false, true);
-        emit Guestbook.NewEntry(address(this), message, block.timestamp);
+        emit Guestbook.NewEntry(address(this), message, imageUrl, block.timestamp);
 
-        guestbook.signGuestbook(message);
+        guestbook.signGuestbook(message, imageUrl);
 
         // Test counter incremented
         assertEq(guestbook.totalEntries(), 1);
@@ -27,7 +28,7 @@ contract GuestbookTest is Test {
     function testFuzz_SignGuestbook(string calldata randomMessage) public {
         uint256 initialCount = guestbook.getEntryCount();
 
-        guestbook.signGuestbook(randomMessage);
+        guestbook.signGuestbook(randomMessage, "");
 
         assertEq(guestbook.getEntryCount(), initialCount + 1);
     }

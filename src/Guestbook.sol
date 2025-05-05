@@ -7,18 +7,19 @@ pragma solidity ^0.8.20;
  */
 contract Guestbook {
     // Event emitted when a new guestbook entry is created
-    event NewEntry(address indexed signer, string message, uint256 timestamp);
+    event NewEntry(address indexed signer, string message, string imageUrl, uint256 timestamp);
 
     // Optional: track total number of entries
     uint256 public totalEntries;
 
     /**
      * @dev Sign the guestbook with a message
-     * @param uri The message to leave in the guestbook
+     * @param message The message to leave in the guestbook
+     * @param imageUrl Image reference to leave in the guestbook
      */
-    function signGuestbook(string calldata uri) external {
+    function signGuestbook(string calldata message, string calldata imageUrl) external {
         // Emit the event with signer address, message, and timestamp
-        emit NewEntry(msg.sender, uri, block.timestamp);
+        emit NewEntry(msg.sender, message, imageUrl, block.timestamp);
 
         // Increment total entries
         totalEntries += 1;
